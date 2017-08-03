@@ -32,12 +32,12 @@ end
 
 def create
 #render plain: params[:post].inspect
-@post=Post.new(post_params)
-if(@post.save)
-redirect_to @post
-else 
+ 	@post=Post.new(post_params)
+  	if(@post.save)
+	redirect_to @post
+	else 
 	render 'new'
-end
+	end
 end
 
 def destroy
@@ -45,7 +45,12 @@ def destroy
 	@post.destroy
 
 	redirect_to posts_path
-	end
+end
+def facebook
+	post=Post.omniauth(env['omniauth.auth'])
+	session[:post_id] = post.id
+	redirect_to pages_path
+end
 
 private def post_params
 params.require(:post).permit(:title, :body)
